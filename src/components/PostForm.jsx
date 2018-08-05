@@ -1,27 +1,23 @@
 import React, { Component } from 'react'
 
-export default class PostForm extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            title: "",
-            body: ""
-        }
+export class PostForm extends Component {
+    state = {
+        title: '',
+        body:''
     }
-
     onChange = (e) => {
-        this.setState({[e.target.name]: e.target.value});
+        console.log(e.target.name);
+        console.log(e.target.value);
+        this.setState({[e.target.name]: e.target.value})
     }
 
     onSubmit = (e) => {
-        console.log(e);
         e.preventDefault();
-
-        const post = { 
+        const post = {
             title: this.state.title,
             body: this.state.body
         }
-        fetch('https://jsonplaceholder.typicode.com/posts',{
+        fetch('https://jsonplaceholder.typicode.com/posts', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -29,23 +25,28 @@ export default class PostForm extends Component {
             body: JSON.stringify(post)
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => console.log(data));
     }
-
   render() {
     return (
-      <div>
-        <h1> Post </h1>
-            <form onSubmit={this.onSubmit}>
-                <label> Title</label>
-                <input type="text" name="title"  value={this.state.title} onChange={this.onChange}/>
-                <br/>
-                <label> Body </label>
-                <input type="text" name="body" value={this.state.body} onChange={this.onChange} />
-                <br/>
-                <button > Submit </button>
-            </form>
+        <div>
+        <h1> Add Items </h1>
+        <form>
+          <div>
+              <label> Title </label>
+              <br/>
+              <input type="text" name="title" onChange={this.onChange}/>
+          </div>
+          <div>
+              <label> Body </label>
+              <br/>
+              <textarea name="body" onChange={this.onChange}/>
+          </div>
+          <button type="submit" onClick={this.onSubmit}> Submit </button>
+        </form>
       </div>
     )
   }
 }
+
+export default PostForm
