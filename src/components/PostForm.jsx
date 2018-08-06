@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import { createPosts } from '../actions/postAction';
 
 export class PostForm extends Component {
     state = {
@@ -6,8 +8,6 @@ export class PostForm extends Component {
         body:''
     }
     onChange = (e) => {
-        console.log(e.target.name);
-        console.log(e.target.value);
         this.setState({[e.target.name]: e.target.value})
     }
 
@@ -17,15 +17,7 @@ export class PostForm extends Component {
             title: this.state.title,
             body: this.state.body
         }
-        fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(post)
-        })
-        .then(res => res.json())
-        .then(data => console.log(data));
+        this.props.createPosts(post);
     }
   render() {
     return (
@@ -49,4 +41,4 @@ export class PostForm extends Component {
   }
 }
 
-export default PostForm
+export default connect(null, { createPosts })(PostForm);
